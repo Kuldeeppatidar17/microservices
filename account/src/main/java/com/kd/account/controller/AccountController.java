@@ -1,8 +1,6 @@
 package com.kd.account.controller;
 
-import com.kd.account.dtos.AccountResponse;
-import com.kd.account.dtos.CreateAccountRequest;
-import com.kd.account.dtos.UpdateAccountRequest;
+import com.kd.account.dtos.*;
 import com.kd.account.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,41 +18,42 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountResponse> create(
+    public ResponseEntity<ApiResponse<AccountResponse>> create(
             @Valid @RequestBody CreateAccountRequest request) {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(accountService.create(request));
+        AccountResponse response=accountService.create(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponseUtil.success(HttpStatus.CREATED.value(),"Account Created Successfully",response));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<AccountResponse>> getById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(accountService.getById(id));
+        AccountResponse response=accountService.getById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account fetched successfully",response));
     }
 
     @GetMapping
-    public ResponseEntity<List<AccountResponse>> getAll() {
+    public ResponseEntity<ApiResponse<List<AccountResponse>>> getAll() {
 
-        return ResponseEntity.ok(accountService.getAll());
+        List<AccountResponse> responses=accountService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Accounts fetched successfully",responses));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AccountResponse> update(
+    public ResponseEntity<ApiResponse<AccountResponse>> update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateAccountRequest request) {
 
-        return ResponseEntity.ok(
-                accountService.update(id, request)
-        );
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account updated successfully",accountService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
         accountService.delete(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account deleted Successfully"));
     }
 }
