@@ -1,6 +1,7 @@
 package com.kd.account.dtos;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public record AccountResponse(
         Long id,
@@ -11,6 +12,11 @@ public record AccountResponse(
 
         String accountNumber,
 
-        BigDecimal balance
+        BigDecimal balance,
+        LocalDateTime createdAt,
+        String createdBy,
+
+        LocalDateTime updatedAt,
+        String updatedBy
 ) {
 }

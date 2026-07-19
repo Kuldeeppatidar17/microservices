@@ -23,7 +23,11 @@ public class AccountMapper {
                 account.getAccountHolderName(),
                 account.getAccountType(),
                 account.getAccountNumber(),
-                account.getBalance()
+                account.getBalance(),
+                account.getCreatedDate(),
+                account.getCreatedBy(),
+                account.getLastModifiedDate(),
+                account.getLastModifiedBy()
         );
     }
 
