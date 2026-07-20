@@ -1,5 +1,6 @@
 package com.kd.account.controller;
 
+import com.kd.account.constant.MessageConstants;
 import com.kd.account.dtos.*;
 import com.kd.account.service.AccountService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class AccountController {
 
         AccountResponse response=accountService.create(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponseUtil.success(HttpStatus.CREATED.value(),"Account Created Successfully",response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponseUtil.success(HttpStatus.CREATED.value(), MessageConstants.ACCOUNT_CREATED,response));
     }
 
     @GetMapping("/{id}")
@@ -37,7 +38,7 @@ public class AccountController {
 
         AccountResponse response=accountService.getById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account fetched successfully",response));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),MessageConstants.ACCOUNT_FETCHED,response));
     }
 
     @GetMapping
@@ -46,7 +47,7 @@ public class AccountController {
         log.info("enter into get all account controller:");
 
         List<AccountResponse> responses=accountService.getAll();
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Accounts fetched successfully",responses));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),MessageConstants.ACCOUNTS_FETCHED,responses));
     }
 
     @PutMapping("/{id}")
@@ -56,7 +57,7 @@ public class AccountController {
 
         log.info("enter into update account controller: {}",id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account updated successfully",accountService.update(id, request)));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),MessageConstants.ACCOUNT_UPDATED,accountService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
@@ -64,6 +65,6 @@ public class AccountController {
 
         accountService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),"Account deleted Successfully"));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(),MessageConstants.ACCOUNT_DELETED));
     }
 }
