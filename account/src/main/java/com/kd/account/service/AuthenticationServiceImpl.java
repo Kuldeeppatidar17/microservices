@@ -1,4 +1,4 @@
-package com.kd.account.security.service;
+package com.kd.account.service;
 
 import com.kd.account.exceptions.DuplicateResourceException;
 import com.kd.account.security.dto.LoginRequest;
@@ -6,6 +6,7 @@ import com.kd.account.security.dto.RegisterRequest;
 import com.kd.account.security.user.Role;
 import com.kd.account.security.user.User;
 import com.kd.account.security.user.UserRepository;
+import com.kd.account.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AuthenticationServiceImpl implements AuthenticationService{
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
