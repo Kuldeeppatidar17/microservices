@@ -1,15 +1,17 @@
 package com.kd.account.service;
 
 import com.kd.account.exceptions.DuplicateResourceException;
+import com.kd.account.security.dto.AuthenticationResponse;
 import com.kd.account.security.dto.LoginRequest;
 import com.kd.account.security.dto.RegisterRequest;
+import com.kd.account.security.jwt.JwtService;
 import com.kd.account.security.user.Role;
 import com.kd.account.security.user.User;
 import com.kd.account.security.user.UserRepository;
-import com.kd.account.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final String TOKEN_TYPE="Bearer";
     @Override
     public void register(RegisterRequest request) {
 
@@ -41,9 +45,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void login(LoginRequest request) {
-        authenticationManager.authenticate(
+    public AuthenticationResponse login(LoginRequest request) {
+
+        Authentication authentication =authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(),request.password())
         );
+
+        User user = (User) authentication.getPrincipal();
+        String token = jwtService.generateToken(user);
+
+        return new AuthenticationResponse(token,TOKEN_TYPE);
     }
 }
