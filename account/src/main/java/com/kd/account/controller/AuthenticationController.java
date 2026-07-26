@@ -2,6 +2,7 @@ package com.kd.account.controller;
 
 import com.kd.account.dtos.ApiResponse;
 import com.kd.account.dtos.ApiResponseUtil;
+import com.kd.account.security.dto.AuthenticationResponse;
 import com.kd.account.security.dto.LoginRequest;
 import com.kd.account.security.dto.RegisterRequest;
 import com.kd.account.service.AuthenticationService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -31,10 +34,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Void>> login(@Valid @RequestBody LoginRequest request){
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> login(@Valid @RequestBody LoginRequest request){
         log.info("Enter into the login authentication controller !");
-        authenticationService.login(request);
+        AuthenticationResponse response=authenticationService.login(request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(), "User logged in successfully !"));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseUtil.success(HttpStatus.OK.value(), "User logged in successfully !",response));
     }
 }
