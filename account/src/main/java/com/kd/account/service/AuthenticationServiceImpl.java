@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final String TOKEN_TYPE="Bearer";
+    private static final String TOKEN_TYPE="Bearer";
     @Override
     public void register(RegisterRequest request) {
 

@@ -21,3 +21,7 @@ server:
 jwt:
   secret-key: 6W6k8TzA7wB9LmN2QrS4UvX8YpE3HdF5JkR7NsT9VxC2ZmP8
   access-token-expiration: 3600000
+
+logging:
+  level:
+    org.springframework.beans.factory: INFO
