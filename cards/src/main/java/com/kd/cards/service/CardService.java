@@ -9,6 +9,8 @@ public interface CardService {
 
     CardDto getCardById(Long cardId);
 
+    CardDto getCardByNumber(String cardNumber);
+
     List<CardDto> getAllCards();
 
     CardDto updateCard(Long cardId, CardDto cardDto);

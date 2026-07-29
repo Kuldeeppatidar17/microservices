@@ -8,13 +8,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/cards")
 @RequiredArgsConstructor
 public class CardController {
     private final CardService cardService;
@@ -25,13 +25,93 @@ public class CardController {
 
         CardDto savedCard = cardService.createCard(cardDto);
 
-        ApiResponse<CardDto> response = ApiResponse.<CardDto>builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message(MessageConstants.CARD_CREATED)
-                .data(savedCard)
-                .timestamp(LocalDateTime.now())
-                .build();
+        ApiResponse<CardDto> response = new ApiResponse(
+                true,
+                HttpStatus.CREATED.value(),
+                MessageConstants.CARD_CREATED,
+                LocalDateTime.now(),
+                savedCard);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{cardId}")
+    public ResponseEntity<ApiResponse<CardDto>> getCardById(
+            @PathVariable Long cardId) {
+
+        CardDto card = cardService.getCardById(cardId);
+
+        ApiResponse<CardDto> response = new ApiResponse(
+                true,
+                HttpStatus.OK.value(),
+                MessageConstants.CARD_FETCHED,
+                LocalDateTime.now(),
+                card);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/card-number/{cardNumber}")
+    public ResponseEntity<ApiResponse<CardDto>> getCardByNumber(
+            @PathVariable String cardNumber) {
+
+        CardDto card = cardService.getCardByNumber(cardNumber);
+
+        ApiResponse<CardDto> response = new ApiResponse(
+                true,
+                HttpStatus.OK.value(),
+                MessageConstants.CARD_FETCHED,
+                LocalDateTime.now(),
+                card);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<CardDto>>> getAllCards() {
+
+        List<CardDto> cards = cardService.getAllCards();
+
+        ApiResponse<List<CardDto>> response = new ApiResponse(
+                true,
+                HttpStatus.OK.value(),
+                MessageConstants.CARD_FETCHED,
+                LocalDateTime.now(),
+                cards);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/{cardId}")
+    public ResponseEntity<ApiResponse<CardDto>> updateCard(
+            @PathVariable Long cardId,
+            @Valid @RequestBody CardDto cardDto) {
+
+        CardDto updatedCard = cardService.updateCard(cardId, cardDto);
+
+        ApiResponse<CardDto> response = new ApiResponse(
+                true,
+                HttpStatus.OK.value(),
+                MessageConstants.CARD_UPDATED,
+                LocalDateTime.now(),
+                updatedCard);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{cardId}")
+    public ResponseEntity<ApiResponse<Void>> deleteCard(
+            @PathVariable Long cardId) {
+
+        cardService.deleteCard(cardId);
+
+        ApiResponse<Void> response = new ApiResponse(
+                true,
+                HttpStatus.OK.value(),
+                MessageConstants.CARD_DELETED,
+                LocalDateTime.now(),
+                null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

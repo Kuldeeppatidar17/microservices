@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 public record CardDto(
-        int cardId,
+        Long cardId,
         @NotBlank(message = "Card number is required")
         String cardNumber,
         @NotBlank(message = "Card type is required")

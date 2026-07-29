@@ -45,6 +45,17 @@ public class CardServiceImpl implements CardService{
 
     @Override
     @Transactional(readOnly = true)
+    public CardDto getCardByNumber(String cardNumber) {
+        Card card = cardRepository.findByCardNumber(cardNumber)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                MessageConstants.CARD_NOT_FOUND));
+
+        return Mapper.mapToDto(card);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<CardDto> getAllCards() {
         return cardRepository.findAll()
                 .stream()
