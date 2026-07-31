@@ -17,3 +17,12 @@ spring:
 
 server:
   port: 8082
+
+cards:
+  message: "Welcome to Cards Microservice!"
+  contact-info:
+    name: "Support Team"
+    email: "support@kd.com"
+  on-call-support:
+    - 9999999999
+    - 8888888888

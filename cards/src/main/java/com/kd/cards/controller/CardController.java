@@ -3,21 +3,32 @@ package com.kd.cards.controller;
 import com.kd.cards.constants.MessageConstants;
 import com.kd.cards.dto.ApiResponse;
 import com.kd.cards.dto.CardDto;
+import com.kd.cards.dto.CardsProperties;
 import com.kd.cards.service.CardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/cards")
 @RequiredArgsConstructor
+@Slf4j
 public class CardController {
     private final CardService cardService;
+    private final CardsProperties cardsProperties;
+
+    @Autowired
+    private Environment environment;
 
     @PostMapping
     public ResponseEntity<ApiResponse<CardDto>> createCard(
@@ -113,5 +124,16 @@ public class CardController {
                 null);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/java-version")
+    public String getJavaVersion(){
+        log.info("java version controller");
+        return environment.getProperty("java.home");
+    }
+
+    @GetMapping("/contact-info")
+    public Map<String, Object> getContactInfo() {
+        return cardsProperties.contactInfo();
     }
 }
