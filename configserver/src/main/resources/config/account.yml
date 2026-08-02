@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: account
+  datasource:
+    url: jdbc:h2:mem:accountdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  profiles:
+    active:
+      - "qa"
+
+
+server:
+  port: 8081
+
+jwt:
+  secret-key: 6W6k8TzA7wB9LmN2QrS4UvX8YpE3HdF5JkR7NsT9VxC2ZmP8
+  access-token-expiration: 3600000
+
+logging:
+  level:
+    org.springframework.beans.factory: INFO
+
+build:
+  version: "1.0"
