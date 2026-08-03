@@ -1,8 +1,3 @@
-spring:
-  config:
-    activate:
-      on-profile: "prod"
-
 accounts:
   message: "Welcome to accounts Microservice in PROD environment !"
   contact-info:

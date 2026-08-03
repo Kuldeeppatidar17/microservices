@@ -1,8 +1,8 @@
 spring:
   application:
-    name: account
+    name: cards
   datasource:
-    url: jdbc:h2:mem:accountdb;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:carddb;DB_CLOSE_DELAY=-1
     driverClassName: org.h2.Driver
     username: sa
     password: ''
@@ -15,17 +15,14 @@ spring:
       ddl-auto: update
     show-sql: true
 
-
 server:
-  port: 8081
+  port: 8082
 
-jwt:
-  secret-key: 6W6k8TzA7wB9LmN2QrS4UvX8YpE3HdF5JkR7NsT9VxC2ZmP8
-  access-token-expiration: 3600000
-
-logging:
-  level:
-    org.springframework.beans.factory: INFO
-
-build:
-  version: "1.0"
+cards:
+  message: "Welcome to Cards Microservice!"
+  contact-info:
+    name: "Support Team"
+    email: "support@kd.com"
+  on-call-support:
+    - 9999999999
+    - 8888888888
