@@ -1,0 +1,8 @@
+accounts:
+  message: "Welcome to accounts Microservice in PROD environment !"
+  contact-info:
+    name: "Support Team"
+    email: "support@kd.com"
+  on-call-support:
+    - 9999999999
+    - 8888888888

@@ -1,0 +1,8 @@
+accounts:
+  message: "Welcome to accounts Microservice in QA environment !"
+  contact-info:
+    name: "Support Team QA"
+    email: "support@kdQA.com"
+  on-call-support:
+    - 9999999999
+    - 8888888888
