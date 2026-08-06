@@ -1,5 +1,5 @@
 accounts:
-  message: "Welcome to accounts Microservice in PROD environment !"
+  message: "Welcome to accounts Microservice in PRODUCTION environment !"
   contact-info:
     name: "Support Team"
     email: "{cipher}8fb7c7e3045c2bd7cf3afeaaae4ea2a7cc387c57b873afe151f0a32a209e4b81"
