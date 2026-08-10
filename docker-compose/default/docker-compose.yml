@@ -1,0 +1,27 @@
+services:
+  account:
+    image: "kd17exe/account:a1"
+    container_name: account-ms
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+#till now it will work independently but for intercommunication we need to describe "network" in same position of deploy.
+    networks:
+      - kd17msbank
+  cards:
+    image: "kd17exe/cards:c1"
+    container_name: cards-ms
+    ports:
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - kd17msbank
+networks:
+  kd17msbank:
+    driver: "bridge"
