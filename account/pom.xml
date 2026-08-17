@@ -144,7 +144,7 @@
 				<version>3.5.1</version>
 				<configuration>
 					<to>
-						<image>kd17exe/${project.artifactId}:a1</image>
+						<image>kd17exe/${project.artifactId}:a2</image>
 					</to>
 				</configuration>
 			</plugin>
