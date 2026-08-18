@@ -54,7 +54,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "account"
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" #prefix should be always configserver but domain is a service name
-      SPRING_PROFILES_ACTIVE: default
+      SPRING_PROFILES_ACTIVE: qa
       SPRING_RABBITMQ_HOST: "rabbit"
   cards:
     image: "kd17exe/cards:c2"
@@ -73,7 +73,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" #prefix should be always configserver but domain is a service name
-      SPRING_PROFILES_ACTIVE: default
+      SPRING_PROFILES_ACTIVE: qa
       SPRING_RABBITMQ_HOST: "rabbit"
 networks:
   kd17msbank:
