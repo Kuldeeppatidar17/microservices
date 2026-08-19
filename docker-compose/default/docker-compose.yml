@@ -13,6 +13,46 @@ services:
       start_period: 5s
     networks:
       - kd17msbank
+  accountdb:
+    image: mysql
+    container_name: accountdb
+    ports:
+      - 3308:3306
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost"]
+      timeout: 10s
+      retries: 10
+      interval: 10s
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - kd17msbank
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: accountdb
+  cardsdb:
+    image: mysql
+    container_name: cardsdb
+    ports:
+      - 3307:3306
+    healthcheck:
+      test: [ "CMD","mysqladmin","ping","-h","localhost" ]
+      timeout: 10s
+      retries: 10
+      interval: 10s
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - kd17msbank
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cardsdb
   configserver:
     image: "kd17exe/configserver:cs2"
     container_name: configserver-ms
@@ -44,6 +84,8 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+      accountdb:
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -53,9 +95,17 @@ services:
       - kd17msbank
     environment:
       SPRING_APPLICATION_NAME: "account"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" #prefix should be always configserver but domain is a service name
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
       SPRING_PROFILES_ACTIVE: default
       SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountdb:3306/accountdb?createDatabaseIfNotExist=true"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
+      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+
   cards:
     image: "kd17exe/cards:c2"
     container_name: cards-ms
@@ -63,6 +113,8 @@ services:
       - "8082:8082"
     depends_on:
       configserver:
+        condition: service_healthy
+      cardsdb:
         condition: service_healthy
     deploy:
       resources:
@@ -72,9 +124,16 @@ services:
       - kd17msbank
     environment:
       SPRING_APPLICATION_NAME: "cards"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" #prefix should be always configserver but domain is a service name
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
       SPRING_PROFILES_ACTIVE: default
       SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb?createDatabaseIfNotExist=true"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
+      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
 networks:
   kd17msbank:
     driver: "bridge"

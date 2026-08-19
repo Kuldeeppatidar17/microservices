@@ -2,11 +2,12 @@ spring:
   application:
     name: account
   datasource:
-    url: jdbc:mysql://localhost:3308/accountdb
+    url: jdbc:mysql://localhost:3308/accountdb?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
     show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
   sql:
     init:
       mode: always
