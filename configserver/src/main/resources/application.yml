@@ -13,12 +13,12 @@ spring:
           uri: "https://github.com/Kuldeeppatidar17/microservices.git"
           default-label: main
           search-paths:
-            - "config-repo"
+            - "configserver/src/main/resources/config"
           timeout: 5
           clone-on-start: true
           force-pull: true
   rabbitmq:
-    host: "localhost"
+    host: localhost
     port: 5672
     username: "guest"
     password: "guest"
