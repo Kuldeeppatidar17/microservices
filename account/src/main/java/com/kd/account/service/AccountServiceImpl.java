@@ -1,15 +1,15 @@
 package com.kd.account.service;
 
 import com.kd.account.constant.MessageConstants;
-import com.kd.account.dtos.AccountResponse;
-import com.kd.account.dtos.CreateAccountRequest;
-import com.kd.account.dtos.UpdateAccountRequest;
+import com.kd.account.dtos.*;
 
 import com.kd.account.entity.Account;
 import com.kd.account.exceptions.ResourceNotFoundException;
 import com.kd.account.mapper.AccountMapper;
 import com.kd.account.repository.AccountRepository;
+import com.kd.account.service.client.CardsFeignClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +22,7 @@ public class AccountServiceImpl implements AccountService{
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final CardsFeignClient cardsFeignClient;
     @Override
     public AccountResponse create(CreateAccountRequest request) {
 
@@ -71,5 +72,15 @@ public class AccountServiceImpl implements AccountService{
                         new ResourceNotFoundException(MessageConstants.ACCOUNT_NOT_FOUND + id));
 
         accountRepository.delete(account);
+    }
+
+    @Override
+    public CustomerDtlsDto getCustomerDtls(String mobileNumber) {
+        AccountResponse accountResponse= getById(1L);
+        ResponseEntity<ApiResponse<CardDto>> cardDto =cardsFeignClient.getCardById(mobileNumber);
+        CustomerDtlsDto customerDtlsDto=new CustomerDtlsDto();
+        customerDtlsDto.setAccountResponse(accountResponse);
+        customerDtlsDto.setCardResponse(cardDto.getBody().data());
+        return customerDtlsDto;
     }
 }
