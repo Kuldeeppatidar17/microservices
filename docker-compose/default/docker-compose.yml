@@ -13,46 +13,46 @@ services:
 #      start_period: 5s
 #    networks:
 #      - kd17msbank
-  accountdb:
-    image: oscarfonts/h2
-    container_name: accountdb
-    ports:
-      - 3308:1521
-      - 8081:8181
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8181" ]
-      timeout: 10s
-      retries: 10
-      interval: 10s
-      start_period: 10s
-    deploy:
-      resources:
-        limits:
-          memory: 300m
-    networks:
-      - kd17msbank
-    environment:
-      H2_OPTIONS: "-web -webAllowOthers -tcp -tcpAllowOthers"
-  cardsdb:
-    image: oscarfonts/h2
-    container_name: cardsdb
-    ports:
-      - 3307:1521
-      - 8082:8181
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8181" ]
-      timeout: 10s
-      retries: 10
-      interval: 10s
-      start_period: 10s
-    deploy:
-      resources:
-        limits:
-          memory: 300m
-    networks:
-      - kd17msbank
-    environment:
-      H2_OPTIONS: "-web -webAllowOthers -tcp -tcpAllowOthers"
+#  accountdb:
+#    image: oscarfonts/h2
+#    container_name: accountdb
+#    ports:
+#      - 3308:1521
+#      - 8081:8181
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8181" ]
+#      timeout: 10s
+#      retries: 10
+#      interval: 10s
+#      start_period: 10s
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 300m
+#    networks:
+#      - kd17msbank
+#    environment:
+#      H2_OPTIONS: "-web -webAllowOthers -tcp -tcpAllowOthers"
+#  cardsdb:
+#    image: oscarfonts/h2
+#    container_name: cardsdb
+#    ports:
+#      - 3307:1521
+#      - 8082:8181
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8181" ]
+#      timeout: 10s
+#      retries: 10
+#      interval: 10s
+#      start_period: 10s
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 300m
+#    networks:
+#      - kd17msbank
+#    environment:
+#      H2_OPTIONS: "-web -webAllowOthers -tcp -tcpAllowOthers"
   eurekaserver:
     image: "kd17exe/eurekaserver:es2"
     container_name: eurekaserver-ms
@@ -116,13 +116,6 @@ services:
       SPRING_APPLICATION_NAME: "account"
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
       SPRING_PROFILES_ACTIVE: default
-      SPRING_DATASOURCE_URL: "jdbc:mysql://accountdb:3306/accountdb?createDatabaseIfNotExist=true"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
-      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
   cards:
@@ -147,13 +140,6 @@ services:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
       SPRING_PROFILES_ACTIVE: default
-      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb?createDatabaseIfNotExist=true"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
-      SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.MySQLDialect"
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQLDialect"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 networks:
   kd17msbank:
