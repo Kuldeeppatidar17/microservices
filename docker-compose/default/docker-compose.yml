@@ -101,8 +101,6 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
-      accountdb:
-        condition: service_healthy
       eurekaserver:
         condition: service_healthy
     deploy:
@@ -125,8 +123,6 @@ services:
       - "8082:8082"
     depends_on:
       configserver:
-        condition: service_healthy
-      cardsdb:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
