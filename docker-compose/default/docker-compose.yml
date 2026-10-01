@@ -75,7 +75,8 @@ services:
       - kd17msbank
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8071/"
+      SPRING_CLOUD_CONFIG_URI: "http://configserver:8071"
   configserver:
     image: "kd17exe/configserver:cs2"
     container_name: configserver-ms
